@@ -1,50 +1,47 @@
 import Head from 'next/head'
-
+import { ethers } from "ethers";
+import Lock from "../artifacts/contracts/Lock.sol/Lock.json";
 export default function Home() {
+  const connect =  async ()=>{
+    debugger;
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner()
+  }
+  const call_contract =  async ()=>{
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    await provider.send("eth_requestAccounts", []);
+
+    const signer = provider.getSigner()//拿到一个账号
+    const lock = new ethers.Contract("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0", Lock.abi, signer);
+    const transaction = await lock.setNumber(1234);
+    const txReceipt = await transaction.wait();
+    const [transferEvent] = txReceipt.events;
+    const { newv } = transferEvent.args;
+    alert("Decoded data: "+ newv.toString()); 
+  }
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>艺术家工作室</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
+
 
         <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
+          <button className="card" onClick={connect}>
+
+             连接钱包
+          </button>
+          
+          <a className="card" onClick={call_contract}>
+            <p> 合约调用</p>
           </a>
 
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
         </div>
       </main>
 

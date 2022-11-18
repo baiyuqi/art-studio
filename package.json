@@ -3,11 +3,18 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "compile": "npx hardhat compile",
+    "deploy":"npx hardhat run scripts/deploy.js --network localhost",
+    "test":"npx hardhat test"
   },
   "dependencies": {
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "hardhat": "^2.12.2"
   }
 }
