@@ -13,7 +13,7 @@ export default function Home() {
     await provider.send("eth_requestAccounts", []);
 
     const signer = provider.getSigner()//拿到一个账号
-    const lock = new ethers.Contract("0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0", Lock.abi, signer);
+    const lock = new ethers.Contract("0xA01dE49cECEB1557bc00D45E8168f816572A1842", Lock.abi, signer);
     const transaction = await lock.setNumber(1234);
     const txReceipt = await transaction.wait();
     const [transferEvent] = txReceipt.events;

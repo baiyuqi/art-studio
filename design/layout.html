@@ -1,0 +1,100 @@
+<html>
+    <head>
+<style>
+.container{
+    display: grid;
+    height:100vh;
+    grid-template-columns:1fr 1fr 1fr 1fr;
+    grid-template-rows: 2fr 12fr 15fr 8fr;
+    grid-template-areas: 
+    "nav nav nav nav"
+    "sidebar main main main"
+    "sidebar main main main"
+    "sidebar footer footer footer";
+    grid-gap: 0.1rem;
+    text-align: center;
+    overflow-wrap: break-word;
+}
+nav{
+    background: #0dc5d6;
+    grid-area: nav;
+}
+main{
+    background: #08935e;
+    grid-area: main;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-content: center;
+    grid-gap: 1rem;
+
+    
+}
+.nftcard{
+    background: #0dc5d6;
+
+
+}
+#sidebar{
+    background: #a620c1;
+    grid-area: sidebar;
+}
+
+#footer{
+    background: #99b20d;
+    grid-area: footer;
+}
+@media only screen and (max-width: 550px){
+    .container{
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.4fr 0.4fr 2.2fr 1.2fr 1.2fr 1.2fr 1fr;
+        grid-template-areas: 
+        "nav"
+        "sidebar"
+        "main"
+       
+        "footer";
+    }
+
+    main{
+    background: #08935e;
+    grid-area: main;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    grid-gap: 1rem;
+
+    
+}
+}
+</style>
+    </head>
+    <body>
+        <div class="container">
+            <nav>navbar</nav>
+            <main>
+                <div class="nftcard">
+                    <img src=""/>
+                    <div>name</div>
+                    <div>price</div>
+                    <button>buy</button>
+                </div>
+                <div class="nftcard">
+                    <img src=""/>
+                    <div>name</div>
+                    <div>price</div>
+                    <button>buy</button>
+                </div>
+                <div class="nftcard">
+                    <img src=""/>
+                    <div>name</div>
+                    <div>price</div>
+                    <button>buy</button>
+                </div>
+            </main>
+            <div id="sidebar">sidebar</div>
+       
+            <div id = "footer"></div>
+            
+        </div>
+    </body>
+</html>
