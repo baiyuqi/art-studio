@@ -14,8 +14,9 @@ export default function Home() {
     await provider.send("eth_requestAccounts", []);
 
     const signer = provider.getSigner()//拿到一个账号
-    const lock = new ethers.Contract("0xa478D8Cd0982B250836A0C765879B29636576a6C", MyErc721.abi, signer);
-    const feecollector =  "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
+    const lock = new ethers.Contract("0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9", MyErc721.abi, signer);
+    const feecollector =  await signer.getAddress();
+    alert(feecollector)
     const transaction = await lock.mint(feecollector, "https://github.com/baiyuqi/art-studio/releases/tag/course-1",{value:1000000000});
     const txReceipt = await transaction.wait();
     const [transferEvent] = txReceipt.events;
