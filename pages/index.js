@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { ethers } from "ethers";
-import Lock from "../artifacts/contracts/Lock.sol/Lock.json";
+import MyErc721 from "../artifacts/contracts/NFT.sol/MyErc721.json";
 export default function Home() {
   const connect =  async ()=>{
     debugger;
@@ -9,16 +9,18 @@ export default function Home() {
     const signer = provider.getSigner()
   }
   const call_contract =  async ()=>{
+    debugger;
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     await provider.send("eth_requestAccounts", []);
 
     const signer = provider.getSigner()//拿到一个账号
-    const lock = new ethers.Contract("0xA01dE49cECEB1557bc00D45E8168f816572A1842", Lock.abi, signer);
-    const transaction = await lock.setNumber(1234);
+    const lock = new ethers.Contract("0xa478D8Cd0982B250836A0C765879B29636576a6C", MyErc721.abi, signer);
+    const feecollector =  "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
+    const transaction = await lock.mint(feecollector, "https://github.com/baiyuqi/art-studio/releases/tag/course-1",{value:1000000000});
     const txReceipt = await transaction.wait();
     const [transferEvent] = txReceipt.events;
-    const { newv } = transferEvent.args;
-    alert("Decoded data: "+ newv.toString()); 
+    const { from, to, tokenId } = transferEvent.args;
+    alert("Decoded data: from: "+ from.toString() + " to: " + to.toString() + " tokenId:" + tokenId.toString()); 
   }
   return (
     <div className="container">

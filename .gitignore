@@ -39,7 +39,9 @@ typechain-types
 #Hardhat files
 cache
 artifacts
-
+#Remix files
+contracts/artifacts
+contracts/.deps
 
 node_modules
 .env

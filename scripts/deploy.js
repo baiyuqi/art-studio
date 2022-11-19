@@ -21,6 +21,14 @@ async function main() {
   console.log(
     `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
   );
+
+
+  const NFT = await hre.ethers.getContractFactory("MyErc721");
+  const nft = await NFT.deploy("0x70997970C51812dc3A010C7d01b50e0d17dc79C8");
+  console.log(
+    `NFT deployed to ${nft.address}`
+  );
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
