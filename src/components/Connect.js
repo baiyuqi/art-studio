@@ -1,27 +1,22 @@
-
 import { ethers } from "ethers";
-import { useState } from "react";
-function Connect() {
-     const [address, setAddress] = useState("")
-    const connect = async () => {
-        debugger;
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        await provider.send("eth_requestAccounts", []);
-        const signer = provider.getSigner();
-        const chainId = await provider.getNetwork();
-      
-        setAddress(await signer.getAddress());
+import { connect } from '../service/ConnectionService'
+import {NotificationContainer} from "react-notifications"
+import 'react-notifications/lib/notifications.css';
+function Connect({ children }) {
+    const connectWallet = async () => {
+        await connect();
     }
-    return (
-        <>
+  return (
+    <div>
+            <NotificationContainer />
+            <a href="javascript:void(0);" onClick={connectWallet}>
+              connect
+            </a>
 
-                <a href="javascript:void(0);"  onClick={connect}>
-                    connect
-                </a>
-            
-                  
-        </>
-    )
+
+    </div>
+
+  )
 }
 
-export default Connect;
+export default Connect
