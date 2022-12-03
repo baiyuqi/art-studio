@@ -53,4 +53,20 @@ contract MyErc721 is ERC721URIStorage, ERC721Enumerable {
     function tokenURI(uint256 tokenId) public view  override(ERC721, ERC721URIStorage)  returns (string memory) {
         return ERC721URIStorage.tokenURI(tokenId);
     }
+    struct Token{
+        uint tokenId;
+        string tokenUrl;
+    }
+    function myTokens()public view returns(Token[] memory) {
+        address owner = msg.sender;
+        uint balance = balanceOf(owner);
+
+        Token[] memory rst = new Token[](balance);
+        for(uint i = 0; i < rst.length; i++){
+            uint tokenId =  tokenOfOwnerByIndex(owner, i);
+            rst[i].tokenId = tokenId;
+            rst[i].tokenUrl = tokenURI(tokenId);
+        }
+        return rst; 
+    }
 }

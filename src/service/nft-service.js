@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { rpcUrl} from '../config'
 import { trying} from './ConnectionService'
 import { NetworkConfiguration } from '../config';
-import NFT from "../../artifacts/contracts/NFT.sol/NFT.json";
+import NFT from "../../artifacts/contracts/NFT.sol/MyErc721.json";
 import { NotificationManager } from 'react-notifications';
 import axios from 'axios'
 
@@ -27,19 +27,23 @@ export const totalsupply = async () => {
   return total;
 }
 
-export const mintNFT = async (url) => {
-    const {success, provider, signer} = trying();
-    if(!success)
+export const mintNFT = async (tokenUri) => {
+    const {success, provider, signer} = await trying();
+    if(!success){
         NotificationManager.warning('', "network not right!", 6000);
+        return {success:false};
+    }
         
    
     let nft = new ethers.Contract(NetworkConfiguration.nftAddress, NFT.abi, signer);
     const address = await signer.getAddress();
-    let transaction = await nft.connect(signer).mint(address, url, {value: 100000000000});
-    let tx = await transaction.wait();
+    let transaction = await nft.connect(signer).mint(address, tokenUri, {value: 1000000000});
+    let tx = await transaction.wait(1);
     debugger
     let event = tx.events[0];
     let value = event.args[2];
     console.log(value);
     let tokenId = value.toNumber();
+    alert(tokenId)
+    return {success:true, tokenId};
 }

@@ -1,13 +1,16 @@
-# Sample Hardhat Project
+## 第五章 NFT发行开发
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+本章任务：
 
-Try running some of the following tasks:
+1. NftMintor组件开发
+2. nft-service服务逻辑开发
+
+
+
+## 提交命令：
 
 ```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
+git tag
+git tag -a course-4 -m "course 4 IPFS"
+git push origin --tags
 ```
