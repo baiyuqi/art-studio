@@ -1,0 +1,25 @@
+.CreatorWrapper{
+    display:flex;
+   
+  
+    justify-content: center;
+   
+}
+.CreatorContainer{
+    display:flex;
+    width: 20%;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgba(227, 227, 237, 0.824);
+    padding-bottom: 3rem/
+}
+.NftField{
+    margin-top: 2rem;
+    padding: 1rem
+}
+.NftImage {
+    width: 100%;
+    padding: 2px;
+    border-radius: 0.4rem;
+    position: relative;
+}
