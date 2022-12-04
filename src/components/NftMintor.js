@@ -3,10 +3,11 @@ import {useState} from "react"
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import React from 'react';
 import { mintNFT } from '../service/nft-service';
+import { useRouter } from 'next/router';
 const ipfs = ipfsHttpClient({ host: '127.0.0.1', 'api-path': '/ipfs/api/v0/', protocol: 'http', port: '5001' });
 
 function NftMinter() {
-    
+    const router = useRouter();
     const [meta, updateMeta] = useState({name:"", description:""})
     const [uri, setUri] = useState("")
     const onChange = async (e) => {
@@ -25,8 +26,10 @@ function NftMinter() {
         alert(added.path)
         const tokenUri = "http://127.0.0.1:8080/ipfs/" + added.path;
         const {success, tokenId} = await mintNFT(tokenUri);
-        if(success)
+        if(success){
             alert(tokenId)
+            router.push("/mynft")
+        }
 
     }
 

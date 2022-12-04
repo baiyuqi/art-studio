@@ -7,9 +7,11 @@ import { NotificationManager } from 'react-notifications';
 import axios from 'axios'
 
 export const owned = async () => {
-    const {success, provider, signer} = trying();
-    if(!success)
+    const {success, provider, signer} = await trying();
+    if(!success){
         NotificationManager.warning('', "network not right!", 6000);
+        return {success:false}
+    }
   
     const address = await signer.getAddress();
    
@@ -17,6 +19,19 @@ export const owned = async () => {
    
   
     const count = await nft.balanceOf(address)
+    const amount = count.toNumber();
+
+    const rst = await Promise.all(
+        Array.from({length: amount}, async (v, i)=>{
+            debugger
+            const tokenId  = await nft.tokenOfOwnerByIndex(address, i)
+            const tokenUri = await nft.tokenURI(tokenId)
+            const meta = await axios.get(tokenUri)
+            return {...meta.data, tokenId, tokenUri};
+
+        })
+    )
+    return {success:true, data:rst}
  
 }
 export const totalsupply = async () => {

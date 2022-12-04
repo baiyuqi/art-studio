@@ -19,7 +19,7 @@ function Layout({ children }) {
               Sell Digital Asset
             </a>
          
-            <a href="/my-assets"  >
+            <a href="/mynft"  >
               My Digital Asset
             </a>
          
