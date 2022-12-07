@@ -1,37 +1,48 @@
 import styles from './NftMintor.module.css'
-import {useState} from "react"
+import { useState } from "react"
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import React from 'react';
 import { mintNFT } from '../service/nft-service';
+import { addToIpfs } from '../service/Ipfs-service';
 import { useRouter } from 'next/router';
-const ipfs = ipfsHttpClient({ host: '127.0.0.1', 'api-path': '/ipfs/api/v0/', protocol: 'http', port: '5001' });
-
+import { messageBox } from "../service/message-service"
+import {toArweave, imageToArweave} from "../service/arweave-service"
 function NftMinter() {
+
     const router = useRouter();
-    const [meta, updateMeta] = useState({name:"", description:""})
+    const [meta, updateMeta] = useState({ name: "", description: "" })
     const [uri, setUri] = useState("")
     const onChange = async (e) => {
-        const image = e.target.files[0]
-      alert(e.target.files[0])
-      const added = await ipfs.add(image)
-      const cid = added.path
-      const imageUri = "http://127.0.0.1:8080/ipfs/" + cid;
-      setUri(imageUri);
+        try {
+            const image = e.target.files[0]
+            const imageuri = await  imageToArweave(image)//addToIpfs(image)
+            messageBox("success", "", imageuri)
+            setUri(imageuri);
+        } catch (error) {
+            messageBox("danger", "", error.message)
+        }
     }
 
     const mint = async () => {
-        const data = {...meta, imageUri: uri}
+        try {
+        const data = { ...meta, uri }
         const json = JSON.stringify(data);
-        const added = await ipfs.add(json)
-        alert(added.path)
-        const tokenUri = "http://127.0.0.1:8080/ipfs/" + added.path;
-        const {success, tokenId} = await mintNFT(tokenUri);
-        if(success){
-            alert(tokenId)
+        const metauri = await toArweave(json)//addToIpfs(json)
+        messageBox("success", "", metauri)
+        const { success, tokenId } = await mintNFT(metauri);
+      
+        if (success) {
+            messageBox("success", "", tokenId)
+           
             router.push("/mynft")
+        }else{
+            messageBox("danger", "","mint failed")
         }
-
+    } catch (error) {
+        messageBox("danger", "", error.message)
     }
+    }
+  
 
     return (
         <div className={styles.CreatorWrapper}>
@@ -40,29 +51,29 @@ function NftMinter() {
                 <input
                     placeholder="Asset Name"
                     className={styles.NftField}
-                    onChange={(e)=>updateMeta({...meta, name: e.target.value})}
-                   
+                    onChange={(e) => updateMeta({ ...meta, name: e.target.value })}
+
                 />
                 <textarea
                     placeholder="Asset Description"
                     className={styles.NftField}
-                    onChange={(e)=>{updateMeta({...meta, description: e.target.value})}}
+                    onChange={(e) => { updateMeta({ ...meta, description: e.target.value }) }}
                 />
-              
+
                 <input
                     type='file'
                     placeholder="Asset Image"
                     className="my-4"
-                   onChange={onChange}
+                    onChange={onChange}
                 />
 
-                <img  width="350" className={styles.NftImage} />
+                <img width="350" src={uri} className={styles.NftImage} />
 
 
                 <button
                     className="mt-8 bg-blue-500 text-white rounded p-4"
                     onClick={mint}
-                    >Create Item</button>
+                >Create Item</button>
 
             </div>
 

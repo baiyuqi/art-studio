@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import { rpcUrl} from '../config'
-import { trying} from './ConnectionService'
+import { trying} from './connection-service'
 import { NetworkConfiguration } from '../config';
 import NFT from "../../artifacts/contracts/NFT.sol/MyErc721.json";
 import { NotificationManager } from 'react-notifications';

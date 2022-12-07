@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-
+import { messageBox } from "../service/message-service"
 import { NetworkConfiguration } from '../config'
 import { NotificationManager } from 'react-notifications';
     export const connectOnce = async () => {
@@ -15,10 +15,12 @@ import { NotificationManager } from 'react-notifications';
         const {chainId, address, provider, signer} = await connectOnce();
         const supported = NetworkConfiguration.chainId.toString();
         if (chainId == supported) {
-            NotificationManager.success('', 'chainId: ' + chainId + "      account: " + address.substring(0, 5) + "..", 3000);
+            messageBox("success", "", 'chainId: ' + chainId + "      account: " + address.substring(0, 5) + "..")
+
             return {success:true, provider, signer};
         }
-        NotificationManager.warning('', 'chainId: ' + chainId + "      account: " + address.substring(0, 5) + "..", 3000);
+        messageBox("warning", "", 'chainId: ' + chainId + "      account: " + address.substring(0, 5) + "..")
+
         return {success:false};
     }
     export const connect = async () => {
